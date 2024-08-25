@@ -19,8 +19,27 @@ public class LambdaExpressionsExamples {
 
         System.out.println("\n-------- Display elements in a List ---------");
 
+        // List has its own version of the forEach() method - works just like the Stream forEach()
+        // The List forEach() uses:
+        //
+        // 1. Iterators to traverse the List you may safely add or remove elements in the Lambda expression
+        // without getting a ConcurrentModificationException
+        //
+        // 2. The order in which elements are processed is predictable - entry sequence
+        //
+        // 3. Slightly faster
+        //
+        // Using the Java for each:
+        // for (String aName : names) {
+        // System.out.println("Name: " + aName);
+        // }
 
+        // Using Lambda forEach() as a parameter
+        System.out.println("\nUsing the List version of forEach to traverse the names: \n");
         names.forEach( (aName) -> {System.out.println("Name: " + aName);});  // List version of forEach()
+
+        System.out.println("\nUsing the Stream interface forEach to traverse the names: \n");
+        names.stream()forEach( (aName) -> {System.out.println("Name: " + aName);});  // Stream version of forEach()
 
         /***************************************************************************************
          * stream().map() Stream Interface function
@@ -67,6 +86,10 @@ public class LambdaExpressionsExamples {
 
         /***************************************************************************************
          * Arrays.reduce() Arrays method
+         *
+         * Since Stream interface methods may only be applied to Collections class objects (like ArrayList)
+         *
+         * Java created a set of equivalent methods for use with a simple array
          **************************************************************************************/
         System.out.println("\n-------- Using Arrays.reduce() to sum an array   ---------");
 
@@ -76,9 +99,9 @@ public class LambdaExpressionsExamples {
         }
 
         // The Arrays class provided a stream().reduce() method for a simple array
+        // .stream(array-name).method(parameters)
         int total = Arrays.stream(numArray).reduce(0, (sum, anElem) -> sum + anElem);
         System.out.println("Sum of elements in array is: " + total);
-
 
         takeDown();   // Perform end of main() processings
     } // End of main()
